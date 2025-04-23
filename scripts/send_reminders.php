@@ -1,8 +1,5 @@
 <?php
-// Este script debe ejecutarse diariamente mediante un cron job
-// Ejemplo de cron job: 0 8 * * * TZ=America/Caracas php /ruta/a/tu/proyecto/scripts/send_reminders.php
 
-// Incluir archivos necesarios usando rutas absolutas
 $root_path = realpath(dirname(__FILE__) . '/..');
 include_once $root_path . '/config/database.php';
 include_once $root_path . '/models/Client.php';
@@ -10,15 +7,12 @@ include_once $root_path . '/models/User.php';
 include_once $root_path . '/utils/mail_functions.php';
 include_once $root_path . '/config/mail_config.php';
 
-// Inicializar conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
 
-// Inicializar objetos
 $client = new Client($db);
 $user = new User($db);
 
-// Función para obtener usuarios asignados a un cliente
 function getAssignedUsers($db, $client_id) {
     $query = "SELECT u.id_usuario, u.nombre_usuario, u.correo_usuario 
               FROM usuarios u
@@ -57,7 +51,7 @@ while ($client = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo "Enviando recordatorio de cumpleaños para: " . $client['nombre_cliente'] . "\n";
     error_log("Enviando recordatorio de cumpleaños para: " . $client['nombre_cliente']);
     
-    // Obtener usuarios asignados
+    
     $assigned_users = getAssignedUsers($db, $client['id_cliente']);
     
     if (empty($assigned_users)) {

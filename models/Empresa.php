@@ -11,7 +11,6 @@ class Empresa {
         $this->conn = $db;
     }
 
-    // Create empresa
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET nombre_empresa = :nombre_empresa, 
@@ -19,7 +18,6 @@ class Empresa {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_empresa = htmlspecialchars(strip_tags($this->nombre_empresa));
         $this->rubro = htmlspecialchars(strip_tags($this->rubro));
 
@@ -33,7 +31,6 @@ class Empresa {
         return false;
     }
 
-    // Read all empresas
     public function read() {
         $query = "SELECT id_empresa, nombre_empresa, rubro 
                   FROM " . $this->table_name . " 
@@ -45,7 +42,6 @@ class Empresa {
         return $stmt;
     }
 
-    // Read one empresa
     public function readOne() {
         $query = "SELECT id_empresa, nombre_empresa, rubro 
                   FROM " . $this->table_name . " 
@@ -68,7 +64,6 @@ class Empresa {
         return false;
     }
 
-    // Update empresa
     public function update() {
         $query = "UPDATE " . $this->table_name . " 
                   SET nombre_empresa = :nombre_empresa, 
@@ -77,7 +72,6 @@ class Empresa {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_empresa = htmlspecialchars(strip_tags($this->nombre_empresa));
         $this->rubro = htmlspecialchars(strip_tags($this->rubro));
         $this->id_empresa = htmlspecialchars(strip_tags($this->id_empresa));
@@ -93,7 +87,6 @@ class Empresa {
         return false;
     }
 
-    // Delete empresa
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_empresa = ?";
 
@@ -107,7 +100,6 @@ class Empresa {
         return false;
     }
 
-    // Get clients by empresa
     public function getClients() {
         $query = "SELECT c.id_cliente, c.nombre_cliente 
                   FROM clientes c

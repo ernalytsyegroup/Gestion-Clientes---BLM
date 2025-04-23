@@ -1,25 +1,19 @@
 <?php
-// Include database and required files
 include_once '../config/database.php';
 include_once '../utils/session.php';
 include_once '../config/mail_config.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Set page title
 $page_title = "Configuración de Correo";
 
-// Process form submission
 $message = '';
 $success = false;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Actualizar el archivo de configuración
     $config_file = '../config/mail_config.php';
     
-    // Procesar el checkbox
     $birthday_reminder_same_day = isset($_POST['birthday_reminder_same_day']) ? 'true' : 'false';
     
     $config_content = '<?php
@@ -48,7 +42,6 @@ class MailConfig {
 }
 ?>';
 
-    // Guardar el archivo
     if (file_put_contents($config_file, $config_content)) {
         $message = 'Configuración de correo actualizada correctamente.';
         $success = true;
@@ -57,7 +50,6 @@ class MailConfig {
     }
 }
 
-// Include header
 include '../includes/layout_header.php';
 ?>
 
@@ -209,6 +201,5 @@ include '../includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include '../includes/layout_footer.php';
 ?>

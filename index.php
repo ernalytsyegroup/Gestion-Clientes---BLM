@@ -1,40 +1,29 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/User.php';
 include_once 'models/Client.php';
 include_once 'utils/session.php';
 
-// Require login
 requireLogin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize client object
 $client = new Client($db);
 
-// Set page title
 $page_title = "Dashboard";
 
-// Get total clients count
 $total_clients = $client->countClients(getCurrentUserId(), isAdmin());
 
-// Get upcoming payments (next 7 days)
 $upcoming_payments = $client->getUpcomingPayments(getCurrentUserId(), isAdmin(), 7);
 
-// Get upcoming birthdays (next 30 days)
 $upcoming_birthdays = $client->getUpcomingBirthdays(getCurrentUserId(), isAdmin(), 30);
 
-// Get recent clients
 $recent_clients = $client->getRecentClients(getCurrentUserId(), isAdmin(), 5);
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
-<!-- Dashboard Content -->
 <div class="stats-grid">
     <div class="stat-card">
         <div class="icon primary">
@@ -61,7 +50,6 @@ include 'includes/layout_header.php';
     </div>
 </div>
 
-<!-- Upcoming Payments -->
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">Pagos Próximos</h2>
@@ -124,7 +112,6 @@ include 'includes/layout_header.php';
     </table>
 </div>
 
-<!-- Upcoming Birthdays -->
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">Cumpleaños Próximos</h2>
@@ -153,7 +140,7 @@ include 'includes/layout_header.php';
                     <td><?php echo date('d/m/Y', strtotime($birthday['cumpleaños'])); ?></td>
                     <td>
                         <?php 
-                            // Calculate days until next birthday
+
                             $birth_date = new DateTime($birthday['cumpleaños']);
                             $today = new DateTime();
                             $birth_date->setDate($today->format('Y'), $birth_date->format('m'), $birth_date->format('d'));
@@ -193,7 +180,6 @@ include 'includes/layout_header.php';
     </table>
 </div>
 
-<!-- Recent Clients -->
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">Clientes Recientes</h2>
@@ -243,6 +229,6 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
+
 include 'includes/layout_footer.php';
 ?>

@@ -9,10 +9,10 @@ class Client {
     public $cumpleaños;
     public $fecha_pago;
     public $id_plan;
-    public $nombre_plan; // Para almacenar el nombre del plan
+    public $nombre_plan; 
     public $id_empresa;
-    public $nombre_empresa; // Para almacenar el nombre de la empresa
-    public $rubro_empresa; // Para almacenar el rubro de la empresa
+    public $nombre_empresa; 
+    public $rubro_empresa; 
 
     public function __construct($db) {
         $this->conn = $db;

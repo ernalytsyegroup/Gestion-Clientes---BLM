@@ -1,27 +1,20 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Plan.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize plan object
 $plan = new Plan($db);
 
-// Set page title
 $page_title = "Planes";
 
-// Get all plans
 $stmt = $plan->read();
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 

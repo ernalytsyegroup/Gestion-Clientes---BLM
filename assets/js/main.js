@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Mobile menu toggle
+  
   const mobileMenuToggle = document.querySelector(".mobile-menu-toggle")
   const sidebar = document.querySelector(".sidebar")
 

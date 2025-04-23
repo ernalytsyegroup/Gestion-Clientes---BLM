@@ -12,7 +12,6 @@ class Plan {
         $this->conn = $db;
     }
 
-    // Create plan
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET nombre_plan = :nombre_plan, 
@@ -21,7 +20,6 @@ class Plan {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_plan = htmlspecialchars(strip_tags($this->nombre_plan));
         $this->descripcion_plan = htmlspecialchars(strip_tags($this->descripcion_plan));
         $this->precio = htmlspecialchars(strip_tags($this->precio));
@@ -37,7 +35,6 @@ class Plan {
         return false;
     }
 
-    // Read all plans
     public function read() {
         $query = "SELECT id_plan, nombre_plan, descripcion_plan, precio 
                   FROM " . $this->table_name . " 
@@ -49,7 +46,6 @@ class Plan {
         return $stmt;
     }
 
-    // Read one plan
     public function readOne() {
         $query = "SELECT id_plan, nombre_plan, descripcion_plan, precio 
                   FROM " . $this->table_name . " 
@@ -73,7 +69,6 @@ class Plan {
         return false;
     }
 
-    // Update plan
     public function update() {
         $query = "UPDATE " . $this->table_name . " 
                   SET nombre_plan = :nombre_plan, 
@@ -83,7 +78,6 @@ class Plan {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_plan = htmlspecialchars(strip_tags($this->nombre_plan));
         $this->descripcion_plan = htmlspecialchars(strip_tags($this->descripcion_plan));
         $this->precio = htmlspecialchars(strip_tags($this->precio));
@@ -101,7 +95,6 @@ class Plan {
         return false;
     }
 
-    // Delete plan
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_plan = ?";
 

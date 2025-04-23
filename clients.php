@@ -1,27 +1,20 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/User.php';
 include_once 'models/Client.php';
 include_once 'utils/session.php';
 
-// Require login
 requireLogin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize client object
 $client = new Client($db);
 
-// Set page title
 $page_title = "Clientes";
 
-// Get clients for current user
 $stmt = $client->read(getCurrentUserId(), isAdmin());
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -96,6 +89,5 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include 'includes/layout_footer.php';
 ?>

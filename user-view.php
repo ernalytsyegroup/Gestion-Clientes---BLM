@@ -1,45 +1,36 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/User.php';
 include_once 'models/Relation.php';
 include_once 'models/Client.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize objects
 $user = new User($db);
 $relation = new Relation($db);
 $client = new Client($db);
 
-// Check if ID is set
 if(!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: users.php");
     exit();
 }
 
-// Set user ID
 $user->id_usuario = $_GET['id'];
 $relation->id_usuario = $_GET['id'];
 
-// Check if user exists
 if(!$user->readOne()) {
     header("Location: users.php");
     exit();
 }
 
-// Process client assignment
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_client'])) {
     $relation->id_cliente = $_POST['client_id'];
     
-    // Check if relation already exists
     if(!$relation->exists()) {
         if($relation->create()) {
             header("Location: user-view.php?id=" . $user->id_usuario);
@@ -48,16 +39,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_client'])) {
     }
 }
 
-// Get assigned clients
 $assigned_clients = $relation->readByUser();
 
-// Get all clients for dropdown
 $all_clients = $client->read(getCurrentUserId(), true);
 
-// Set page title
 $page_title = "Detalles del Usuario";
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -107,7 +94,6 @@ include 'includes/layout_header.php';
             </form>
         </div>
         
-        <!-- Assigned Clients List -->
         <table class="data-table">
             <thead>
                 <tr>

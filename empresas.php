@@ -84,6 +84,6 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
+
 include 'includes/layout_footer.php';
 ?>

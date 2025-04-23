@@ -1,31 +1,25 @@
 <?php
-// Include database and user model
 include_once 'config/database.php';
 include_once 'models/User.php';
 include_once 'utils/session.php';
 
-// If already logged in, redirect to index
 if(isLoggedIn()) {
     header("Location: index.php");
     exit();
 }
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize user object
 $user = new User($db);
 
-// Process login form
 $message = '';
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set user properties
+    
     $user->correo_usuario = $_POST['usuario_correo'];
     
-    // Attempt to login
     if($user->login()) {
-        // Set session
+        
         setUserSession($user->id_usuario, $user->nombre_usuario, $user->isAdmin());
         header("Location: index.php");
         exit();

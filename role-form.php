@@ -1,46 +1,38 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Role.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize role object
 $role = new Role($db);
 
-// Set page title and action
 $page_title = "Nuevo Rol";
 $action = "create";
 
-// Check if editing
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $role->id_rol = $_GET['id'];
     
-    // Check if role exists
     if($role->readOne()) {
         $page_title = "Editar Rol";
         $action = "update";
     } else {
-        // Redirect if role not found
         header("Location: roles.php");
         exit();
     }
 }
 
-// Process form submission
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set role properties
+
     $role->nombre_rol = $_POST['nombre_rol'];
     $role->descripcion_rol = $_POST['descripcion_rol'];
     
-    // Create or update role
+
     if($action === "create") {
         if($role->create()) {
             header("Location: roles.php");
@@ -54,7 +46,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -91,6 +82,5 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include 'includes/layout_footer.php';
 ?>

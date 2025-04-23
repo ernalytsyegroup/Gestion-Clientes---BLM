@@ -13,7 +13,6 @@
 </head>
 <body>
     <div class="layout">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-container">
                 <img src="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/') !== false ? '../assets/img/BLANCO.png' : 'assets/img/BLANCO.png'; ?>" alt="Logo" class="logo">
@@ -52,7 +51,6 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="content">
             <header class="header">
                 <button class="mobile-menu-toggle">

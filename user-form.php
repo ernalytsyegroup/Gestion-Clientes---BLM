@@ -5,45 +5,36 @@ include_once 'models/User.php';
 include_once 'models/Role.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize user and role objects
 $user = new User($db);
 $role = new Role($db);
 
-// Set page title and action
 $page_title = "Nuevo Usuario";
 $action = "create";
 
-// Check if editing
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $user->id_usuario = $_GET['id'];
     
-    // Check if user exists
     if($user->readOne()) {
         $page_title = "Editar Usuario";
         $action = "update";
     } else {
-        // Redirect if user not found
+        
         header("Location: users.php");
         exit();
     }
 }
 
-// Process form submission
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set user properties
     $user->nombre_usuario = $_POST['nombre_usuario'];
     $user->correo_usuario = $_POST['correo_usuario'];
     $user->id_rol = $_POST['id_rol'];
     
-    // Create or update user
     if($action === "create") {
         $user->contrasena = $_POST['contrasena'];
         if($user->create()) {
@@ -52,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         if($user->update()) {
-            // Update password if provided
+ 
             if(!empty($_POST['contrasena'])) {
                 $user->contrasena = $_POST['contrasena'];
                 $user->updatePassword();
@@ -63,10 +54,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get all roles
 $roles_stmt = $role->read();
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 

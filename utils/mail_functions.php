@@ -53,15 +53,7 @@ function sendMail($to, $subject, $message, $cc = []) {
  * @return bool Éxito o fracaso
  */
 function sendMailSMTP($to, $subject, $message, $cc = []) {
-    // Esta función es un placeholder para implementar SMTP
-    // En un hosting real, puedes usar PHPMailer o la función mail() configurada con SMTP
-    
-    // Para implementar SMTP con PHPMailer, necesitarías:
-    // 1. Incluir la biblioteca PHPMailer
-    // 2. Configurar el servidor SMTP con los datos de MailConfig
-    // 3. Enviar el correo
-    
-    // Por ahora, usamos mail() y registramos que se intentó usar SMTP
+
     error_log("Intentando usar SMTP para enviar correo a: " . $to);
     
     // Cabeceras del correo
@@ -135,12 +127,10 @@ function sendBirthdayReminder($client, $users) {
         return $user['correo_usuario'];
     }, $users);
     
-    // Si no hay usuarios asignados, enviar solo a los administradores
     if (empty($user_emails)) {
         return sendMail(MailConfig::$admin_emails, $subject, $message);
     }
     
-    // Enviar a los usuarios asignados con copia a los administradores
     return sendMail($user_emails, $subject, $message, MailConfig::$admin_emails);
 }
 

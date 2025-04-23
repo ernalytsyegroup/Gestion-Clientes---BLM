@@ -6,7 +6,6 @@ class SocialNetwork {
         $this->conn = $db;
     }
 
-    // Create Instagram account
     public function createInstagram($id_cliente, $usuario, $correo) {
         $query = "INSERT INTO instagram 
                   SET id_cliente = :id_cliente, 
@@ -15,7 +14,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_cliente = htmlspecialchars(strip_tags($id_cliente));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -31,7 +29,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Create Facebook account
     public function createFacebook($id_cliente, $usuario, $correo) {
         $query = "INSERT INTO facebook 
                   SET id_cliente = :id_cliente, 
@@ -40,7 +37,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_cliente = htmlspecialchars(strip_tags($id_cliente));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -56,7 +52,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Create YouTube account
     public function createYoutube($id_cliente, $usuario, $correo) {
         $query = "INSERT INTO youtube 
                   SET id_cliente = :id_cliente, 
@@ -65,7 +60,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_cliente = htmlspecialchars(strip_tags($id_cliente));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -81,7 +75,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Update Instagram account
     public function updateInstagram($id_instagram, $usuario, $correo) {
         $query = "UPDATE instagram 
                   SET usuario_instagram = :usuario, 
@@ -90,7 +83,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_instagram = htmlspecialchars(strip_tags($id_instagram));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -106,7 +98,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Update Facebook account
     public function updateFacebook($id_facebook, $usuario, $correo) {
         $query = "UPDATE facebook 
                   SET usuario_facebook = :usuario, 
@@ -115,7 +106,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_facebook = htmlspecialchars(strip_tags($id_facebook));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -131,7 +121,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Update YouTube account
     public function updateYoutube($id_youtube, $usuario, $correo) {
         $query = "UPDATE youtube 
                   SET usuario_youtube = :usuario, 
@@ -140,7 +129,6 @@ class SocialNetwork {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $id_youtube = htmlspecialchars(strip_tags($id_youtube));
         $usuario = htmlspecialchars(strip_tags($usuario));
         $correo = htmlspecialchars(strip_tags($correo));
@@ -156,7 +144,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Delete Instagram account
     public function deleteInstagram($id_instagram) {
         $query = "DELETE FROM instagram WHERE id_instagram = ?";
 
@@ -170,7 +157,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Delete Facebook account
     public function deleteFacebook($id_facebook) {
         $query = "DELETE FROM facebook WHERE id_facebook = ?";
 
@@ -184,7 +170,6 @@ class SocialNetwork {
         return false;
     }
 
-    // Delete YouTube account
     public function deleteYoutube($id_youtube) {
         $query = "DELETE FROM youtube WHERE id_youtube = ?";
 

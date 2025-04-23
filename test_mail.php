@@ -1,31 +1,24 @@
 <?php
-// Archivo para probar el envío de correos
 include_once 'config/database.php';
 include_once 'utils/mail_functions.php';
 include_once 'models/Client.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Set page title
 $page_title = "Prueba de Correo";
 
-// Mensaje de resultado
 $message = '';
 $success = false;
 
-// Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['test_type'])) {
         $test_type = $_POST['test_type'];
         
-        // Datos de prueba
         $test_client = [
             'id_cliente' => 1,
             'nombre_cliente' => 'Cliente de Prueba',
@@ -46,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]
         ];
         
-        // Enviar correo de prueba
         if ($test_type === 'birthday') {
             if (sendBirthdayReminder($test_client, $test_users)) {
                 $message = 'Correo de prueba de cumpleaños enviado correctamente a ' . $_POST['test_email'];
@@ -74,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -145,6 +136,5 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include 'includes/layout_footer.php';
 ?>

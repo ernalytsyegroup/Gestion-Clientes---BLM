@@ -1,46 +1,37 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Client.php';
 include_once 'models/Plan.php';
 include_once 'models/Empresa.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
-requireAdmin(); // Solo administradores pueden acceder a este formulario
+requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize objects
 $client = new Client($db);
 $plan = new Plan($db);
 $empresa = new Empresa($db);
 
-// Set page title and action
 $page_title = "Nuevo Cliente";
 $action = "create";
 
-// Check if editing
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $client->id_cliente = $_GET['id'];
     
-    // Check if client exists and user has access
     if($client->readOne(getCurrentUserId(), isAdmin())) {
         $page_title = "Editar Cliente";
         $action = "update";
     } else {
-        // Redirect if client not found or no access
         header("Location: clients.php");
         exit();
     }
 }
 
-// Process form submission
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set client properties
+
     $client->nombre_cliente = $_POST['nombre_cliente'];
     $client->fecha_inicio = $_POST['fecha_inicio'];
     $client->cumpleaños = $_POST['cumpleaños'];
@@ -48,7 +39,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client->id_plan = $_POST['id_plan'];
     $client->id_empresa = $_POST['id_empresa'];
     
-    // Create or update client
     if($action === "create") {
         if($client->create()) {
             header("Location: clients.php");
@@ -62,13 +52,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get all plans
 $planes_stmt = $plan->read();
 
-// Get all empresas
 $empresas_stmt = $empresa->read();
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -148,6 +135,5 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include 'includes/layout_footer.php';
 ?>

@@ -11,7 +11,6 @@ class Role {
         $this->conn = $db;
     }
 
-    // Create role
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET nombre_rol = :nombre_rol, 
@@ -19,7 +18,6 @@ class Role {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_rol = htmlspecialchars(strip_tags($this->nombre_rol));
         $this->descripcion_rol = htmlspecialchars(strip_tags($this->descripcion_rol));
 
@@ -33,7 +31,6 @@ class Role {
         return false;
     }
 
-    // Read all roles
     public function read() {
         $query = "SELECT id_rol, nombre_rol, descripcion_rol 
                   FROM " . $this->table_name . " 
@@ -45,7 +42,6 @@ class Role {
         return $stmt;
     }
 
-    // Read one role
     public function readOne() {
         $query = "SELECT id_rol, nombre_rol, descripcion_rol 
                   FROM " . $this->table_name . " 
@@ -68,7 +64,6 @@ class Role {
         return false;
     }
 
-    // Update role
     public function update() {
         $query = "UPDATE " . $this->table_name . " 
                   SET nombre_rol = :nombre_rol, 
@@ -77,7 +72,6 @@ class Role {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_rol = htmlspecialchars(strip_tags($this->nombre_rol));
         $this->descripcion_rol = htmlspecialchars(strip_tags($this->descripcion_rol));
         $this->id_rol = htmlspecialchars(strip_tags($this->id_rol));
@@ -93,7 +87,6 @@ class Role {
         return false;
     }
 
-    // Delete role
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_rol = ?";
 

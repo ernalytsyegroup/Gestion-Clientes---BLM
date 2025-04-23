@@ -1,45 +1,35 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Client.php';
 include_once 'models/SocialNetwork.php';
 include_once 'utils/session.php';
 
-// Require login
 requireLogin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize client object
 $client = new Client($db);
 $social_network = new SocialNetwork($db);
 
-// Check if ID is set
 if(!isset($_GET['id']) || empty($_GET['id'])) {
   header("Location: clients.php");
   exit();
 }
 
-// Set client ID
 $client->id_cliente = $_GET['id'];
 
-// Check if client exists and user has access
 if(!$client->readOne(getCurrentUserId(), isAdmin())) {
   header("Location: clients.php");
   exit();
 }
 
-// Get social networks
 $social_networks = $client->getSocialNetworks();
 
-// Process social network form submission
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   if(isset($_POST['action'])) {
       $action = $_POST['action'];
       
-      // Create Instagram
       if($action === 'create_instagram') {
           $usuario = $_POST['usuario_instagram'];
           $correo = $_POST['correo_instagram'];
@@ -50,7 +40,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
       }
       
-      // Create Facebook
       else if($action === 'create_facebook') {
           $usuario = $_POST['usuario_facebook'];
           $correo = $_POST['correo_facebook'];
@@ -61,7 +50,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
       }
       
-      // Create YouTube
       else if($action === 'create_youtube') {
           $usuario = $_POST['usuario_youtube'];
           $correo = $_POST['correo_youtube'];
@@ -72,7 +60,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
       }
       
-      // Update Instagram
       else if($action === 'update_instagram') {
           $id = $_POST['id_instagram'];
           $usuario = $_POST['usuario_instagram'];
@@ -84,7 +71,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
       }
       
-      // Update Facebook
       else if($action === 'update_facebook') {
           $id = $_POST['id_facebook'];
           $usuario = $_POST['usuario_facebook'];
@@ -96,7 +82,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
       }
       
-      // Update YouTube
       else if($action === 'update_youtube') {
           $id = $_POST['id_youtube'];
           $usuario = $_POST['usuario_youtube'];
@@ -110,10 +95,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-// Set page title
 $page_title = "Detalles del Cliente";
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -142,7 +125,6 @@ include 'includes/layout_header.php';
             </div>
         </div>
         
-        <!-- Instagram -->
         <div class="mb-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold">Instagram</h3>
@@ -151,7 +133,6 @@ include 'includes/layout_header.php';
                 </button>
             </div>
             
-            <!-- Instagram Form -->
             <div id="instagram-form" class="hidden bg-gray-50 p-4 rounded mb-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="create_instagram">
@@ -175,7 +156,6 @@ include 'includes/layout_header.php';
                 </form>
             </div>
             
-            <!-- Instagram List -->
             <?php if(!empty($social_networks['instagram'])): ?>
             <table class="data-table">
                 <thead>
@@ -208,7 +188,6 @@ include 'includes/layout_header.php';
             <p class="text-gray-500">No hay cuentas de Instagram registradas.</p>
             <?php endif; ?>
             
-            <!-- Instagram Edit Form (Hidden) -->
             <div id="instagram-edit-form" class="hidden bg-gray-50 p-4 rounded mt-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="update_instagram">
@@ -237,7 +216,6 @@ include 'includes/layout_header.php';
             </div>
         </div>
         
-        <!-- Facebook -->
         <div class="mb-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold">Facebook</h3>
@@ -246,7 +224,6 @@ include 'includes/layout_header.php';
                 </button>
             </div>
             
-            <!-- Facebook Form -->
             <div id="facebook-form" class="hidden bg-gray-50 p-4 rounded mb-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="create_facebook">
@@ -270,7 +247,6 @@ include 'includes/layout_header.php';
                 </form>
             </div>
             
-            <!-- Facebook List -->
             <?php if(!empty($social_networks['facebook'])): ?>
             <table class="data-table">
                 <thead>
@@ -303,7 +279,6 @@ include 'includes/layout_header.php';
             <p class="text-gray-500">No hay cuentas de Facebook registradas.</p>
             <?php endif; ?>
             
-            <!-- Facebook Edit Form (Hidden) -->
             <div id="facebook-edit-form" class="hidden bg-gray-50 p-4 rounded mt-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="update_facebook">
@@ -332,7 +307,6 @@ include 'includes/layout_header.php';
             </div>
         </div>
         
-        <!-- YouTube -->
         <div class="mb-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold">YouTube</h3>
@@ -341,7 +315,6 @@ include 'includes/layout_header.php';
                 </button>
             </div>
             
-            <!-- YouTube Form -->
             <div id="youtube-form" class="hidden bg-gray-50 p-4 rounded mb-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="create_youtube">
@@ -365,7 +338,6 @@ include 'includes/layout_header.php';
                 </form>
             </div>
             
-            <!-- YouTube List -->
             <?php if(!empty($social_networks['youtube'])): ?>
             <table class="data-table">
                 <thead>
@@ -398,7 +370,6 @@ include 'includes/layout_header.php';
             <p class="text-gray-500">No hay cuentas de YouTube registradas.</p>
             <?php endif; ?>
             
-            <!-- YouTube Edit Form (Hidden) -->
             <div id="youtube-edit-form" class="hidden bg-gray-50 p-4 rounded mt-4">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $client->id_cliente); ?>">
                     <input type="hidden" name="action" value="update_youtube">
@@ -469,6 +440,6 @@ include 'includes/layout_header.php';
 </script>
 
 <?php
-// Include footer
+
 include 'includes/layout_footer.php';
 ?>

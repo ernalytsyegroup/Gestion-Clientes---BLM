@@ -1,5 +1,4 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Role.php';
 include_once 'utils/session.php';

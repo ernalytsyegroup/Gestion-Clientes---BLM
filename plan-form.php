@@ -1,47 +1,37 @@
 <?php
-// Include database and required files
 include_once 'config/database.php';
 include_once 'models/Plan.php';
 include_once 'utils/session.php';
 
-// Require login and admin
 requireLogin();
 requireAdmin();
 
-// Initialize database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Initialize plan object
 $plan = new Plan($db);
 
-// Set page title and action
 $page_title = "Nuevo Plan";
 $action = "create";
 
-// Check if editing
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $plan->id_plan = $_GET['id'];
     
-    // Check if plan exists
     if($plan->readOne()) {
         $page_title = "Editar Plan";
         $action = "update";
     } else {
-        // Redirect if plan not found
+
         header("Location: planes.php");
         exit();
     }
 }
 
-// Process form submission
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set plan properties
     $plan->nombre_plan = $_POST['nombre_plan'];
     $plan->descripcion_plan = $_POST['descripcion_plan'];
     $plan->precio = $_POST['precio'];
     
-    // Create or update plan
     if($action === "create") {
         if($plan->create()) {
             header("Location: planes.php");
@@ -55,7 +45,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Include header
 include 'includes/layout_header.php';
 ?>
 
@@ -102,6 +91,5 @@ include 'includes/layout_header.php';
 </div>
 
 <?php
-// Include footer
 include 'includes/layout_footer.php';
 ?>

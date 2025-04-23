@@ -11,7 +11,6 @@ class Relation {
         $this->conn = $db;
     }
 
-    // Create relation
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET id_usuario = :id_usuario, 
@@ -19,7 +18,6 @@ class Relation {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->id_usuario = htmlspecialchars(strip_tags($this->id_usuario));
         $this->id_cliente = htmlspecialchars(strip_tags($this->id_cliente));
 
@@ -33,7 +31,6 @@ class Relation {
         return false;
     }
 
-    // Read relations by user
     public function readByUser() {
         $query = "SELECT r.id_relacion, r.id_cliente, c.nombre_cliente 
                   FROM " . $this->table_name . " r
@@ -48,7 +45,6 @@ class Relation {
         return $stmt;
     }
 
-    // Read relations by client
     public function readByClient() {
         $query = "SELECT r.id_relacion, r.id_usuario, u.nombre_usuario 
                   FROM " . $this->table_name . " r
@@ -63,7 +59,7 @@ class Relation {
         return $stmt;
     }
 
-    // Delete relation
+  
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_relacion = ?";
 
@@ -77,7 +73,6 @@ class Relation {
         return false;
     }
 
-    // Check if relation exists
     public function exists() {
         $query = "SELECT id_relacion 
                   FROM " . $this->table_name . " 

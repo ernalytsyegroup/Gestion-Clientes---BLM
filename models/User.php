@@ -13,7 +13,6 @@ class User {
         $this->conn = $db;
     }
 
-    // Create user
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET nombre_usuario = :nombre_usuario, 
@@ -23,13 +22,11 @@ class User {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
         $this->correo_usuario = htmlspecialchars(strip_tags($this->correo_usuario));
         $this->contrasena = htmlspecialchars(strip_tags($this->contrasena));
         $this->id_rol = htmlspecialchars(strip_tags($this->id_rol));
 
-        // Hash the password
         $password_hash = password_hash($this->contrasena, PASSWORD_BCRYPT);
 
         $stmt->bindParam(":nombre_usuario", $this->nombre_usuario);
@@ -44,7 +41,6 @@ class User {
         return false;
     }
 
-    // Login user (sin verificación de contraseña)
     public function login() {
         $query = "SELECT id_usuario, nombre_usuario, correo_usuario, id_rol 
                   FROM " . $this->table_name . " 
@@ -53,8 +49,7 @@ class User {
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->correo_usuario);
-        $stmt->bindParam(2, $this->correo_usuario); // Usamos el mismo campo para buscar por nombre o correo
-
+        $stmt->bindParam(2, $this->correo_usuario); 
         $stmt->execute();
 
         if($stmt->rowCount() > 0) {
@@ -65,14 +60,12 @@ class User {
             $this->correo_usuario = $row['correo_usuario'];
             $this->id_rol = $row['id_rol'];
         
-            // No verificamos contraseña, simplemente retornamos true
             return true;
         }
 
         return false;
     }
 
-    // Read all users
     public function read() {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.correo_usuario, r.nombre_rol 
                   FROM " . $this->table_name . " u
@@ -85,7 +78,6 @@ class User {
         return $stmt;
     }
 
-    // Read one user
     public function readOne() {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.correo_usuario, u.id_rol, r.nombre_rol 
                   FROM " . $this->table_name . " u
@@ -110,7 +102,6 @@ class User {
         return false;
     }
 
-    // Update user
     public function update() {
         $query = "UPDATE " . $this->table_name . " 
                   SET nombre_usuario = :nombre_usuario, 
@@ -120,7 +111,6 @@ class User {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize and bind values
         $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
         $this->correo_usuario = htmlspecialchars(strip_tags($this->correo_usuario));
         $this->id_rol = htmlspecialchars(strip_tags($this->id_rol));
@@ -138,7 +128,6 @@ class User {
         return false;
     }
 
-    // Update password
     public function updatePassword() {
         $query = "UPDATE " . $this->table_name . " 
                   SET contrasena = :contrasena
@@ -146,7 +135,6 @@ class User {
 
         $stmt = $this->conn->prepare($query);
 
-        // Hash the password
         $password_hash = password_hash($this->contrasena, PASSWORD_BCRYPT);
 
         $stmt->bindParam(":contrasena", $password_hash);
@@ -159,7 +147,6 @@ class User {
         return false;
     }
 
-    // Delete user
     public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_usuario = ?";
 
@@ -173,7 +160,6 @@ class User {
         return false;
     }
 
-    // Get assigned clients
     public function getAssignedClients() {
         $query = "SELECT c.* 
                   FROM clientes c
@@ -187,7 +173,6 @@ class User {
         return $stmt;
     }
 
-    // Check if user is admin
     public function isAdmin() {
         $query = "SELECT r.nombre_rol 
                   FROM roles r
